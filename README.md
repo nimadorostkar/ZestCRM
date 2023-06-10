@@ -1,14 +1,14 @@
-# Turky-Rahyab-Task API Services
+# ZestCRM API Services
 <hr>
 
-The announcements system  in **Django** Framework. [Nima Dorostkar](https://nimadorostkar.com/)
+The ZestCRM API Services  in **Django** Framework. [Nima Dorostkar](https://nimadorostkar.com/)
 
 
 
 ### Clone this repository
 
 ```
-git clone https://github.com/nimadorostkar/Turky-Rahyab-Task.git
+git clone https://github.com/nimadorostkar/ZestCRM.git
 ```
 
 #### Pip

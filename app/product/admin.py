@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import User
+#from .models import User
+
+'''
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'updated_on', 'created_on')
@@ -7,3 +9,4 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ['email', 'username']
 admin.site.register(User, UserAdmin)
 
+'''
