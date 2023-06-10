@@ -27,7 +27,7 @@ python manage.py runserver
 
 <br>
 
-![Turky-Rahyab-Task](https://github.com/nimadorostkar/Turky-Rahyab-Task/blob/master/Screenshot.png)
+![ZestCRM](https://github.com/nimadorostkar/ZestCRM/blob/main/Screenshot.png)
 
 
 <br><br>
