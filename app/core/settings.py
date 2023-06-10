@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'authentication',
     'announcement',
     'landing',
-
+    'product'
+    'city',
+    'warehouse'
 ]
 
 MIDDLEWARE = [
