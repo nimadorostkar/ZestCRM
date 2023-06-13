@@ -1,13 +1,18 @@
 from django.contrib import admin
-#from .models import User
+from import_export.admin import ImportExportModelAdmin
+from .models import Province, City
 
 
-'''
+class ProvinceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ['name',]
+admin.site.register(Province, ProvinceAdmin)
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'updated_on', 'created_on')
-    list_filter = ('updated_on', 'created_on')
-    search_fields = ['email', 'username']
-admin.site.register(User, UserAdmin)
 
-'''
+class CityAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('name', 'province')
+    search_fields = ['name', 'province']
+    list_filter = ("province",)
+    raw_id_fields = ('province'),
+admin.site.register(City, CityAdmin)
+

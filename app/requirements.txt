@@ -6,3 +6,4 @@ djangorestframework-simplejwt
 dj-rest-auth
 gunicorn
 Pillow
+django-import-export
