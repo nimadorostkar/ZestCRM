@@ -1,13 +1,15 @@
 from rest_framework import serializers
-from .models import User
+from .models import Province, City
 
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=256, allow_null=False)
-    password = serializers.CharField(max_length=256, allow_null=False)
-
-class UserSerializer(serializers.ModelSerializer):
+class CitySerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = City
+        fields = '__all__'
+
+
+class ProvinceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Province
         fields = '__all__'
 
 

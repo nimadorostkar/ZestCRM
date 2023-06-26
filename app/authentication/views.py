@@ -36,8 +36,6 @@ class Login(APIView):
             return Response('username or password is incorrect or something wrong.  [ {} ]'.format(repr(e)), status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
-
-
 class SignUp(APIView):
     permission_classes = [AllowAny]
     def post(self, request):
@@ -48,14 +46,11 @@ class SignUp(APIView):
         else:
             return Response(status=status.HTTP_406_NOT_ACCEPTABLE, data=serializer.errors)
 
-
-
 class Profile(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         serializer = UserSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 
 class ChangePass(APIView):
@@ -67,3 +62,40 @@ class ChangePass(APIView):
         return Response('change password done', status=status.HTTP_200_OK)
 
 
+class CreateSalesManager(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        if request.user.position == 'مدیر کل':
+            data = request.data
+            data['position'] = 'مدیر فروش'
+            data['password'] = '12345678'
+            serializer = UserSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                user = User.objects.get(id=serializer.data['id'])
+                user.set_password(request.data['password'])
+                user.save(update_fields=['password'])
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_406_NOT_ACCEPTABLE, data=serializer.errors)
+        else:
+            return Response('فقط مدیرکل امکان ایجاد دارد' ,status=status.HTTP_406_NOT_ACCEPTABLE)
+
+class CreateProvincialManager(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, *args, **kwargs):
+        if request.user.position == 'مدیر فروش' or 'مدیر کل':
+            data = request.data
+            data['position'] = 'مدیر استان'
+            data['password'] = '12345678'
+            serializer = UserSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                user = User.objects.get(id=serializer.data['id'])
+                user.set_password(request.data['password'])
+                user.save(update_fields=['password'])
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_406_NOT_ACCEPTABLE, data=serializer.errors)
+        else:
+            return Response('فقط مدیرکل و مدیرفروش امکان ایجاد دارد' ,status=status.HTTP_406_NOT_ACCEPTABLE)
