@@ -11,6 +11,7 @@ class User(AbstractUser):
                (' فروشنده', ' فروشنده'),
                ('حسابدار', 'حسابدار'))
     username = None
+    is_first_login = models.BooleanField(default=True)
     national_code = models.CharField(max_length=256, unique=True)
     first_name = models.CharField(max_length=256, null=True, blank=True)
     last_name = models.CharField(max_length=256,null=True, blank=True)

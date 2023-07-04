@@ -8,14 +8,12 @@ from rest_framework.views import APIView
 class Provinces(APIView):
     permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
-        province = Province.objects.all()
-        serializer = ProvinceSerializer(province)
+        serializer = ProvinceSerializer(Province.objects.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class Cities(APIView):
     permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
-        city = City.objects.all()
-        serializer = CitySerializer(city)
+        serializer = CitySerializer(City.objects.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
