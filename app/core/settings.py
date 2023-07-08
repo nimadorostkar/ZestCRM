@@ -127,7 +127,6 @@ JWT_AUTH_REFRESH_COOKIE = 'refresh'
 
 
 
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
