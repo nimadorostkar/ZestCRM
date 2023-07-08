@@ -8,4 +8,8 @@ urlpatterns = [
     path('change-pass', views.ChangePass.as_view(), name='change-pass'),
     path('create-sales-manager', views.CreateSalesManager.as_view(), name='create-sales-manager'),
     path('create-provincial-manager', views.CreateProvincialManager.as_view(), name='create-provincial-manager'),
+    path('sale-manager-list', views.SaleManagerList.as_view(), name='sale-manager-list'),
+    path('sale-manager-list/<int:id>', views.SaleManagerList.as_view(), name='sale-manager-list'),
+    path('province-manager-list', views.ProvinceManagerList.as_view(), name='province-manager-list'),
+    path('province-manager/<int:id>', views.ProvinceManagerList.as_view(), name='province-manager'),
 ]

@@ -104,3 +104,54 @@ class CreateProvincialManager(APIView):
                 return Response(status=status.HTTP_406_NOT_ACCEPTABLE, data=serializer.errors)
         else:
             return Response('فقط مدیرکل و مدیرفروش امکان ایجاد دارد' ,status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+
+
+class SaleManagerList(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        serializer = UserSerializer(User.objects.filter(position='مدیر فروش'), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, id=None):
+        user = User.objects.get(id=id)
+        user.delete()
+        return Response('user deleted',status=status.HTTP_204_NO_CONTENT)
+
+    def patch(self, request, id=None):
+        request.data['user'] = User.objects.get(id=id)
+        request.data['password'] = User.objects.get(id=id).password
+        request.data['national_code'] = User.objects.get(id=id).national_code
+        user = User.objects.get(id=id)
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+class ProvinceManagerList(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        serializer = UserSerializer(User.objects.filter(position='مدیر استان'), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, id=None):
+        user = User.objects.get(id=id)
+        user.delete()
+        return Response('user deleted',status=status.HTTP_204_NO_CONTENT)
+
+    def patch(self, request, id=None):
+        request.data['user'] = User.objects.get(id=id)
+        request.data['password'] = User.objects.get(id=id).password
+        request.data['national_code'] = User.objects.get(id=id).national_code
+        user = User.objects.get(id=id)
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
