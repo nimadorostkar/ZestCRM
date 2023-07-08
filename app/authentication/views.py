@@ -38,7 +38,7 @@ class Login(APIView):
 
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response('username or password is incorrect or something wrong.  [ {} ]'.format(repr(e)), status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response('نام کاربری یا رمز عبور نادرست است یا چیزی اشتباه است.  [ {} ]'.format(repr(e)), status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 class SignUp(APIView):
@@ -64,7 +64,7 @@ class ChangePass(APIView):
         user = User.objects.get(id=request.user.id)
         user.set_password( request.data['password'] )
         user.save(update_fields=['password'])
-        return Response('change password done', status=status.HTTP_200_OK)
+        return Response('تغییر رمز عبور انجام شد', status=status.HTTP_200_OK)
 
 
 class CreateSalesManager(APIView):
@@ -117,7 +117,7 @@ class SaleManagerList(APIView):
     def delete(self, request, id=None):
         user = User.objects.get(id=id)
         user.delete()
-        return Response('user deleted',status=status.HTTP_204_NO_CONTENT)
+        return Response('کاربر حذف شد',status=status.HTTP_204_NO_CONTENT)
 
     def patch(self, request, id=None):
         request.data['user'] = User.objects.get(id=id)
@@ -143,7 +143,7 @@ class ProvinceManagerList(APIView):
     def delete(self, request, id=None):
         user = User.objects.get(id=id)
         user.delete()
-        return Response('user deleted',status=status.HTTP_204_NO_CONTENT)
+        return Response('کاربر حذف شد',status=status.HTTP_204_NO_CONTENT)
 
     def patch(self, request, id=None):
         request.data['user'] = User.objects.get(id=id)

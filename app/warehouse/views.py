@@ -32,7 +32,7 @@ class Login(APIView):
             response = { 'token':token_response , 'user':UserSerializer(user).data }
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response('username or password is incorrect or something wrong.  [ {} ]'.format(repr(e)), status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response('نام کاربری یا رمز عبور نادرست است یا چیزی اشتباه است.  [ {} ]'.format(repr(e)), status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 
