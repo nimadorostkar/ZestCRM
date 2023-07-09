@@ -4,6 +4,10 @@
 The ZestCRM API Services  in **Django** Framework. [Nima Dorostkar](https://nimadorostkar.com/)
 
 
+```
+rm -rf
+```
+
 
 ### Clone this repository
 
