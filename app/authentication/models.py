@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from authentication.custom_usermanager import UserManager
+from city.models import City
 
 
 class User(AbstractUser):
@@ -19,6 +20,8 @@ class User(AbstractUser):
     phone = models.CharField(max_length=256, unique=True, null=True, blank=True)
     email = models.EmailField(max_length=256, unique=True, null=True, blank=True)
     birthdate = models.CharField(max_length=256, null=True, blank=True)
+    address = models.CharField(max_length=256, null=True, blank=True)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
     updated_on = models.DateTimeField(auto_now=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
