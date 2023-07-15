@@ -9,7 +9,7 @@ class User(AbstractUser):
                ('مدیر فروش', 'مدیر فروش'),
                ('مدیر استان', 'مدیر استان'),
                ('مدیر شعبه', 'مدیر شعبه'),
-               (' فروشنده', ' فروشنده'),
+               ('فروشنده', 'فروشنده'),
                ('حسابدار', 'حسابدار'))
     username = None
     is_first_login = models.BooleanField(default=True)

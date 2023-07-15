@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'landing',
     'product',
     'city',
-    'warehouse'
+    'warehouse',
+    'branch'
 ]
 
 MIDDLEWARE = [

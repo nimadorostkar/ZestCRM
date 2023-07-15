@@ -31,11 +31,6 @@ class Login(APIView):
             token = RefreshToken.for_user(user)
             token_response = { "refresh": str(token), "access": str(token.access_token) }
             response = { 'token':token_response , 'user':UserSerializer(user).data }
-
-            user = request.user
-            user.is_first_login = False
-            user.save()
-
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response('نام کاربری یا رمز عبور نادرست است یا چیزی اشتباه است.  [ {} ]'.format(repr(e)), status=status.HTTP_406_NOT_ACCEPTABLE)
@@ -64,6 +59,9 @@ class ChangePass(APIView):
         user = User.objects.get(id=request.user.id)
         user.set_password( request.data['password'] )
         user.save(update_fields=['password'])
+        user = request.user
+        user.is_first_login = False
+        user.save()
         return Response('تغییر رمز عبور انجام شد', status=status.HTTP_200_OK)
 
 
