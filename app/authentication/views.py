@@ -56,10 +56,9 @@ class Profile(APIView):
 class ChangePass(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
-        user = User.objects.get(id=request.user.id)
-        user.set_password( request.data['password'] )
-        user.save(update_fields=['password'])
         user = request.user
+        user.set_password(request.data['password'])
+        user.save(update_fields=['password'])
         user.is_first_login = False
         user.save()
         return Response('تغییر رمز عبور انجام شد', status=status.HTTP_200_OK)
