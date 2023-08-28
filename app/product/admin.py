@@ -1,12 +1,9 @@
 from django.contrib import admin
-#from .models import User
+from .models import Product
 
-'''
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'updated_on', 'created_on')
-    list_filter = ('updated_on', 'created_on')
-    search_fields = ['email', 'username']
-admin.site.register(User, UserAdmin)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price')
+    search_fields = ['name',]
+admin.site.register(Product, ProductAdmin)
 
-'''
