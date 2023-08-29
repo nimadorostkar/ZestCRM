@@ -12,4 +12,5 @@ urlpatterns = [
     path('sale-manager-list/<int:id>', views.SaleManagerList.as_view(), name='sale-manager-list'),
     path('province-manager-list', views.ProvinceManagerList.as_view(), name='province-manager-list'),
     path('province-manager/<int:id>', views.ProvinceManagerList.as_view(), name='province-manager'),
+    path('sellers', views.Sellers.as_view(), name='sellers'),
 ]
