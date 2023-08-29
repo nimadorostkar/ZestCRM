@@ -1,9 +1,7 @@
 from django.urls import path
-from authentication import views
+from product import views
 
 urlpatterns = [
-    #path('login', views.Login.as_view(), name='login'),
-    #path('sign-up', views.SignUp.as_view(), name='sign-up'),
-    #path('profile', views.Profile.as_view(), name='profile'),
-
+    path('product', views.Product.as_view(), name='product'),
+    path('product/<int:id>', views.ProductItem.as_view(), name='product_item'),
 ]

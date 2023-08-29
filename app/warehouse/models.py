@@ -9,6 +9,7 @@ class Warehouse(models.Model):
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
     province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True, blank=True)
+
     inventory = models.IntegerField(default=0)
     gross_inventory = models.IntegerField(default=0)
     def __str__(self):

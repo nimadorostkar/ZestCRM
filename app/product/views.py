@@ -1,61 +1,49 @@
-from .models import User
-from .serializers import LoginSerializer, UserSerializer
-from rest_framework.generics import GenericAPIView
-from rest_framework.decorators import api_view, permission_classes
+from product import models
+from .serializers import ProductSerializer
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets, filters, status, pagination, mixins
 from rest_framework.response import Response
-from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
-from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
-from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 
-class Login(APIView):
+
+class Product(APIView):
+    serializer_class = ProductSerializer
     permission_classes = [AllowAny]
-    def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            data = serializer.validated_data
-        else:
-            return Response(status=status.HTTP_406_NOT_ACCEPTABLE, data=serializer.errors)
-        try:
-            user = authenticate(request, username=data['username'], password=data['password'])
-            login(request, user)
-            token = RefreshToken.for_user(user)
-            token_response = { "refresh": str(token), "access": str(token.access_token) }
-            response = { 'token':token_response , 'user':UserSerializer(user).data }
-            return Response(response, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response('username or password is incorrect or something wrong.  [ {} ]'.format(repr(e)), status=status.HTTP_406_NOT_ACCEPTABLE)
-
-
-
-class SignUp(APIView):
-    permission_classes = [AllowAny]
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            data = serializer.validated_data
-            serializer.save()
-            user = User.objects.get(username=data['username'])
-            user.set_password(data['password'])
-            user.save(update_fields=['password'])
-            resp = {'status':'موفقیت ثبت نام' , 'data':serializer.data}
-            return Response(resp, status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_406_NOT_ACCEPTABLE, data=serializer.errors)
-
-
-
-class Profile(APIView):
-    permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
-        profile = User.objects.get(id=request.user.id)
-        serializer = UserSerializer(profile)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        products = models.Product.objects.all()
+        serialized_data = self.serializer_class(products, many=True).data
+        return Response(serialized_data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class ProductItem(APIView):
+    serializer_class = ProductSerializer
+    permission_classes = [AllowAny]
+    def get(self, request, *args, **kwargs):
+        product = models.Product.objects.get(id=self.kwargs["id"])
+        serialized_data = self.serializer_class(product).data
+        return Response(serialized_data, status=status.HTTP_200_OK)
+    def patch(self, request, *args, **kwargs):
+        product = models.Product.objects.get(id=self.kwargs["id"])
+        serializer = ProductSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        product = models.Product.objects.get(id=self.kwargs["id"])
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
