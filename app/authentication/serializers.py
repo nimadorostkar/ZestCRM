@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import User
+from branch.models import Branch
+#from branch.serializers import SellerBranchSerializer
+from branch.serializers import BranchSerializer
 
 
 class LoginSerializer(serializers.Serializer):
@@ -20,6 +23,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserLimitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'last_login', 'is_active', 'is_first_login', 'national_code', 'first_name', 'last_name', 'position',
+                  'phone', 'email', 'birthdate', 'address', 'city', 'province']
+
+
+
+class SellersSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'last_login', 'is_active', 'is_first_login', 'national_code', 'first_name', 'last_name', 'position',

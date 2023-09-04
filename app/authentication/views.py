@@ -1,5 +1,5 @@
 from .models import User
-from .serializers import LoginSerializer, UserSerializer, SignUpSerializer
+from .serializers import LoginSerializer, UserSerializer, SignUpSerializer, UserLimitSerializer, SellersSerializer
 from rest_framework.generics import GenericAPIView
 from rest_framework.decorators import api_view, permission_classes
 from django_filters.rest_framework import DjangoFilterBackend
@@ -14,7 +14,8 @@ from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRe
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
-
+from branch.models import Branch
+from branch.serializers import BranchSimpleSerializer
 
 
 class Login(APIView):
@@ -155,8 +156,21 @@ class ProvinceManagerList(APIView):
 
 
 
+
 class Sellers(APIView):
     permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
-        serializer = UserSerializer(User.objects.filter(position='فروشنده'), many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        sellers = User.objects.filter(position='فروشنده')
+        all_sellers = []
+        for seller in sellers:
+            #seller_item = SellersSerializer(seller).data
+            branch = Branch.objects.filter(branch_seller=seller.id)
+            branch_item = BranchSimpleSerializer(branch, many=True).data
+
+            item = {'id':seller.id,'national_code':seller.national_code,'first_name':seller.first_name,'last_name':seller.last_name,
+             'phone':seller.phone,'address':seller.address,'branch':branch_item,}
+
+            #seller_item.append( {'branch':branch_item} )
+            all_sellers.append(item)
+        #serializer = SellersSerializer(User.objects.filter(position='فروشنده'), many=True)
+        return Response(all_sellers, status=status.HTTP_200_OK)
