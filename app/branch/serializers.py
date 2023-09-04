@@ -14,8 +14,8 @@ class UserLimitSerializer(serializers.ModelSerializer):
 
 
 class BranchSerializer(serializers.ModelSerializer):
-    branch_manager = UserLimitSerializer()
-    branch_seller = UserLimitSerializer()
+    branch_manager = UserLimitSerializer(required=False)
+    branch_seller = UserLimitSerializer(required=False)
     class Meta:
         model = Branch
         fields = '__all__'

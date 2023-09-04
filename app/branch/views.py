@@ -1,5 +1,5 @@
 from .models import Branch
-from .serializers import BranchSerializer
+from .serializers import BranchSerializer, BranchSimpleSerializer
 from authentication.serializers import UserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework import viewsets, filters, status
@@ -31,7 +31,7 @@ class CreateBranch(APIView):
                 user.set_password(request.data['password'])
                 user.save(update_fields=['password'])
                 data['branch_manager'] = user.id
-                serializer = BranchSerializer(data=data)
+                serializer = BranchSimpleSerializer(data=data)
                 if serializer.is_valid():
                     serializer.save()
                     return Response(serializer.data, status=status.HTTP_200_OK)
