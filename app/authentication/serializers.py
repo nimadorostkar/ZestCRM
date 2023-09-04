@@ -16,3 +16,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+
+
+class UserLimitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'last_login', 'is_active', 'is_first_login', 'national_code', 'first_name', 'last_name', 'position',
+                  'phone', 'email', 'birthdate', 'address', 'city', 'province']
