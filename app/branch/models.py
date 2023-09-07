@@ -7,7 +7,7 @@ class Branch(models.Model):
     is_central = models.BooleanField(default=False)
     name = models.CharField(max_length=256)
     address = models.CharField(max_length=256, null=True, blank=True)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, null=True, blank=True)
     branch_manager = models.ForeignKey(User, on_delete=models.CASCADE)
     branch_seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='branch_seller', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)

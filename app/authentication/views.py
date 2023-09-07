@@ -16,7 +16,8 @@ from django.core.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from branch.models import Branch
 from branch.serializers import BranchSimpleSerializer
-
+from warehouse.models import Warehouse
+from city.models import Province
 
 class Login(APIView):
     permission_classes = [AllowAny]
@@ -97,6 +98,22 @@ class CreateProvincialManager(APIView):
                 user = User.objects.get(id=serializer.data['id'])
                 user.set_password(request.data['password'])
                 user.save(update_fields=['password'])
+
+                branch = Branch()
+                branch.is_central = True
+                branch.name = 'شعبه مرکزی استان'
+                branch.address = data['address']
+                branch.branch_manager = user
+                branch.save()
+
+                warehouse = Warehouse()
+                warehouse.is_central = True
+                warehouse.name = 'انبار مرکزی استان'
+                warehouse.address = data['address']
+                warehouse.branch = branch
+                warehouse.province = Province.objects.get(id=data['province'])
+                warehouse.save()
+
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_406_NOT_ACCEPTABLE, data=serializer.errors)
