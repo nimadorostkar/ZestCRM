@@ -10,7 +10,7 @@ class ProvinceSerializer(serializers.ModelSerializer):
 
 
 class CitySerializer(serializers.ModelSerializer):
-    #province = ProvinceSerializer(read_only=True, many=True)
+    province = ProvinceSerializer(read_only=True)
     class Meta:
         model = City
         fields = '__all__'

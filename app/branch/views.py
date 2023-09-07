@@ -77,3 +77,25 @@ class AddSellerBranch(APIView):
 
 
 
+
+
+
+class BranchItem(APIView):
+    serializer_class = BranchSimpleSerializer
+    permission_classes = [AllowAny]
+    def get(self, request, *args, **kwargs):
+        branch = Branch.objects.get(id=self.kwargs["id"])
+        serialized_data = self.serializer_class(branch).data
+        return Response(serialized_data, status=status.HTTP_200_OK)
+    def patch(self, request, *args, **kwargs):
+        branch = Branch.objects.get(id=self.kwargs["id"])
+        serializer = BranchSimpleSerializer(branch, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        branch = Branch.objects.get(id=self.kwargs["id"])
+        branch.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
