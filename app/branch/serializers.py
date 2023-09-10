@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Branch
 from authentication.models import User
-
+from city.serializers import CitySerializer
 
 
 class UserLimitSerializer(serializers.ModelSerializer):
@@ -12,10 +12,10 @@ class UserLimitSerializer(serializers.ModelSerializer):
 
 
 
-
 class BranchSerializer(serializers.ModelSerializer):
     branch_manager = UserLimitSerializer(required=False)
     branch_seller = UserLimitSerializer(required=False)
+    city = CitySerializer(required=False)
     class Meta:
         model = Branch
         fields = '__all__'
