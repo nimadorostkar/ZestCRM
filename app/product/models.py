@@ -9,6 +9,8 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     cash_sales = models.IntegerField(default=0)
     non_cash_sales = models.IntegerField(default=0)
+    discount_installments_mounth = models.IntegerField(default=0)
+    max_installments_mounth = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.name)
