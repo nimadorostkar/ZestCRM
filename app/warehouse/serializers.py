@@ -1,13 +1,10 @@
 from rest_framework import serializers
-from .models import User
+from .models import Warehouse
 
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=256, allow_null=False)
-    password = serializers.CharField(max_length=256, allow_null=False)
 
-class UserSerializer(serializers.ModelSerializer):
+class WarehouseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Warehouse
         fields = '__all__'
 
 

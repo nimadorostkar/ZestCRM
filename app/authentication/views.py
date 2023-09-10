@@ -18,6 +18,9 @@ from branch.models import Branch
 from branch.serializers import BranchSimpleSerializer
 from warehouse.models import Warehouse
 from city.models import Province
+from branch.serializers import BranchSerializer
+from warehouse.serializers import WarehouseSerializer
+
 
 class Login(APIView):
     permission_classes = [AllowAny]
@@ -114,7 +117,9 @@ class CreateProvincialManager(APIView):
                 warehouse.province = Province.objects.get(id=data['province'])
                 warehouse.save()
 
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                response_data = {"user":serializer.data, "warehouse":WarehouseSerializer(warehouse).data, "branch":BranchSerializer(branch).data}
+
+                return Response(response_data, status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_406_NOT_ACCEPTABLE, data=serializer.errors)
         else:
