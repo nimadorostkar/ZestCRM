@@ -1,7 +1,6 @@
 from django.db import models
 from warehouse.models import Warehouse
 
-
 class Product(models.Model):
     product_id = models.CharField(max_length=128, unique=True, null=True, blank=True)
     name = models.CharField(max_length=256)
@@ -14,7 +13,6 @@ class Product(models.Model):
 
     def __str__(self):
         return str(self.name)
-
 
 
 class FirstPeriodProduct (models.Model):
