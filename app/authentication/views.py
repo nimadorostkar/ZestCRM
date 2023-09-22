@@ -1,5 +1,5 @@
 from .models import User
-from .serializers import LoginSerializer, UserSerializer, SignUpSerializer, UserLimitSerializer, SellersSerializer
+from .serializers import LoginSerializer, UserSerializer, SignUpSerializer, UserLimitSerializer, SellersSerializer, ProvinceManagerSerializer
 from rest_framework.generics import GenericAPIView
 from rest_framework.decorators import api_view, permission_classes
 from django_filters.rest_framework import DjangoFilterBackend
@@ -157,7 +157,7 @@ class SaleManagerList(APIView):
 class ProvinceManagerList(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
-        serializer = UserSerializer(User.objects.filter(position='مدیر استان'), many=True)
+        serializer = ProvinceManagerSerializer(User.objects.filter(position='مدیر استان'), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, id=None):
